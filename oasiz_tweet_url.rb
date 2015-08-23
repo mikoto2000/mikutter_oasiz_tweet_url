@@ -2,10 +2,37 @@
 
 Plugin.create(:oasiz_tweet_url) do
 
+    # config に設定項目を追加
+    settings("URL") do
+        settings("有効設定") do
+            boolean 'Copy tweet URL', :oasiz_tweet_url_copy_tweet_enable
+            boolean 'Open tweet URL', :oasiz_tweet_url_open_tweet_enable
+            boolean 'Copy profile URL', :oasiz_tweet_url_copy_profile_enable
+            boolean 'Open profile URL', :oasiz_tweet_url_open_profile_enable
+        end
+    end
+
+    # デフォルト設定
+    on_boot do |service|
+        if UserConfig[:oasiz_tweet_url_copy_tweet_enable] == nil
+            UserConfig[:oasiz_tweet_url_copy_tweet_enable] = false
+        end
+        if UserConfig[:oasiz_tweet_url_open_tweet_enable] == nil
+            UserConfig[:oasiz_tweet_url_open_tweet_enable] = true
+        end
+        if UserConfig[:oasiz_tweet_url_copy_profile_enable] == nil
+            UserConfig[:oasiz_tweet_url_copy_profile_enable] = false
+        end
+        if UserConfig[:oasiz_tweet_url_open_profile_enable] == nil
+            UserConfig[:oasiz_tweet_url_open_profile_enable] = true
+        end
+    end
+
     # ツイート URL をクリップボードにコピー
     command(:oasiz_tweet_url_copy,
         name: 'Copy tweet URL',
-        condition: Plugin::Command[:HasMessage],
+        condition: lambda { |opt|
+            Plugin::Command[:HasMessage] if UserConfig[:oasiz_tweet_url_copy_tweet_enable]},
         visible: true,
         role: :timeline) do |opt|
             urls = []
@@ -20,7 +47,8 @@ Plugin.create(:oasiz_tweet_url) do
     # ツイート URL を開く
     command(:oasiz_tweet_url_open,
         name: 'Open tweet URL',
-        condition: Plugin::Command[:HasMessage],
+        condition: lambda { |opt|
+            Plugin::Command[:HasMessage] if UserConfig[:oasiz_tweet_url_open_tweet_enable]},
         visible: true,
         role: :timeline) do |opt|
             for message in opt.messages
@@ -33,7 +61,8 @@ Plugin.create(:oasiz_tweet_url) do
     # プロフィール URL をクリップボードにコピー
     command(:oasiz_profiel_url_copy,
         name: 'Copy profile URL',
-        condition: Plugin::Command[:HasMessage],
+        condition: lambda { |opt|
+            Plugin::Command[:HasMessage] if UserConfig[:oasiz_tweet_url_copy_profile_enable]},
         visible: true,
         role: :timeline) do |opt|
             urls = []
@@ -50,7 +79,8 @@ Plugin.create(:oasiz_tweet_url) do
     # プロフィール URL を開く
     command(:oasiz_profiel_url_open,
         name: 'Open profile URL',
-        condition: Plugin::Command[:HasMessage],
+        condition: lambda { |opt|
+            Plugin::Command[:HasMessage] if UserConfig[:oasiz_tweet_url_open_profile_enable]},
         visible: true,
         role: :timeline) do |opt|
             urls = []

@@ -1,0 +1,53 @@
+OASIZ_tweet_url
+===============
+
+ツイートの URL に関する便利機能を提供します。
+
+Usage:
+------
+
+ツイートを右クリックし、コマンドを選択してください。
+
+### Open tweet URL
+
+ツイートの URL をブラウザで開きます。
+
+### Copy tweet URL
+
+ツイートの URL をクリップボードにコピーします。
+
+### Open profile URL
+
+ツイートしたユーザーのプロファイル URL をブラウザで開きます。
+
+### Copy profile URL
+
+ツイートしたユーザーのプロファイル URL をクリップボードにコピーします。
+
+
+Install:
+--------
+
+以下のコマンドをターミナルで実行し、 mikutter を再起動してください。
+
+~~~ { .sh }
+$ mkdir -p ~/.mikutter/plugin
+$ cd ~/.mikutter/plugin
+$ git clone https://github.com/mikoto2000/mikutter_oasiz_tweet_url.git
+~~~
+
+
+License:
+--------
+
+Copyright (C) 2015 mikoto2000
+
+This software is released under the MIT License, see LICENSE
+
+このソフトウェアは MIT ライセンスの下で公開されています。 LICENSE を参照してください。
+
+
+Author:
+-------
+
+mikoto2000 <mikoto2000@gmail.com>

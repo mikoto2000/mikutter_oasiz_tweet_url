@@ -1,0 +1,9 @@
+---
+slug: :oasiz_tweet_url
+depends:
+  mikutter: 3.2.5
+  plugin: []
+version: '1.0'
+author: mikoto2000
+name: OASIZ Tweet url
+description: Tweet url utilities.

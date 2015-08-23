@@ -5,49 +5,66 @@ Plugin.create(:oasiz_tweet_url) do
     # ツイート URL をクリップボードにコピー
     command(:oasiz_tweet_url_copy,
         name: 'Copy tweet URL',
-        condition: Plugin::Command[:HasOneMessage],
+        condition: Plugin::Command[:HasMessage],
         visible: true,
         role: :timeline) do |opt|
-            message = opt.messages.first
-            screen_name = message.user[:idname]
+            urls = []
+            for message in opt.messages
+                screen_name = message.user[:idname]
 
-            Gtk::Clipboard.copy(build_tweet_url(screen_name, message.id))
+                urls.push(build_tweet_url(screen_name, message.id))
+            end
+            Gtk::Clipboard.copy(urls.join(", "))
     end
 
     # ツイート URL を開く
     command(:oasiz_tweet_url_open,
         name: 'Open tweet URL',
-        condition: Plugin::Command[:HasOneMessage],
+        condition: Plugin::Command[:HasMessage],
         visible: true,
         role: :timeline) do |opt|
-            message = opt.messages.first
-            screen_name = message.user[:idname]
+            for message in opt.messages
+                screen_name = message.user[:idname]
 
-            Gtk::openurl(build_tweet_url(screen_name, message.id))
+                Gtk::openurl(build_tweet_url(screen_name, message.id))
+            end
     end
 
     # プロフィール URL をクリップボードにコピー
     command(:oasiz_profiel_url_copy,
         name: 'Copy profile URL',
-        condition: Plugin::Command[:HasOneMessage],
+        condition: Plugin::Command[:HasMessage],
         visible: true,
         role: :timeline) do |opt|
-            message = opt.messages.first
-            screen_name = message.user[:idname]
+            urls = []
+            for message in opt.messages
+                screen_name = message.user[:idname]
 
-            Gtk::Clipboard.copy(build_profile_url(screen_name))
+                urls.push(build_profile_url(screen_name))
+            end
+
+            urls.uniq!
+            Gtk::Clipboard.copy(urls.join(", "))
     end
 
     # プロフィール URL を開く
     command(:oasiz_profiel_url_open,
         name: 'Open profile URL',
-        condition: Plugin::Command[:HasOneMessage],
+        condition: Plugin::Command[:HasMessage],
         visible: true,
         role: :timeline) do |opt|
-            message = opt.messages.first
-            screen_name = message.user[:idname]
+            urls = []
+            for message in opt.messages
+                screen_name = message.user[:idname]
 
-            Gtk::openurl(build_profile_url(screen_name))
+                urls.push(build_profile_url(screen_name))
+            end
+
+            urls.uniq!
+
+            for url in urls
+                Gtk::openurl(url)
+            end
     end
 
     def build_tweet_url(screen_name, id)

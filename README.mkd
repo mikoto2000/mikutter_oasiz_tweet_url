@@ -33,7 +33,7 @@ Install:
 ~~~ { .sh }
 $ mkdir -p ~/.mikutter/plugin
 $ cd ~/.mikutter/plugin
-$ git clone https://github.com/mikoto2000/mikutter_oasiz_tweet_url.git
+$ git clone https://github.com/mikoto2000/mikutter_oasiz_tweet_url.git oasiz_tweet_url
 ~~~
 
 
